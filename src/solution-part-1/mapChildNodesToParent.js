@@ -3,10 +3,9 @@ const mapChildNodesToParent = (inputJSON) => {
   // look for elements with parent_id = null, 
   const rootElement = reductToRootElement(inputJSON);
 
-   // => if count > 1 raise error
-  if (Object.entries(rootElement).length > 1) {
-    throw TypeError("Invalid input JSON, contains more than one root element");
-  }
+  
+
+
 }
 
 const reductToRootElement = (inputJSON) => {
@@ -15,14 +14,20 @@ const reductToRootElement = (inputJSON) => {
 
   const rootElementReducer = allKeys.reduce((rootElementAccum, currentKey) => {
     const currentElementChildrenArray = inputJSON[currentKey];
-    const rootElements = currentElementChildrenArray.filter((obj) => obj.parent_id === null);
-    if (rootElements.length > 0) {
-      rootElementAccum.push(rootElements[0]);
+    const filtered = currentElementChildrenArray.filter((obj) => obj.parent_id === null);
+    if (filtered.length > 0) {
+      rootElementAccum.push(filtered[0]);
     }
     return rootElementAccum;
   }, []);
 
-  return rootElementReducer;
+  // Oops... malformed input JSON, got more than one root elements
+  // discontinue.
+  if (Object.entries(rootElementReducer).length > 1) {
+    throw TypeError("Invalid input JSON, contains more than one root element");
+  }
+
+  return rootElementReducer[0];
 }
 
 module.exports = mapChildNodesToParent;
