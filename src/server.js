@@ -3,6 +3,9 @@ const Hapi = require("@hapi/hapi");
 // override port number and host name via config file.
 const { PORT, HOST } = require("./server.config");
 
+const { formatJSON } = require("./routes");
+const mapChildNodesToParent = require("./solution-part-1/mapChildNodesToParent");
+
 /**
  * define routes and configure Hapi server
  * @returns void
@@ -19,7 +22,7 @@ const init = async () => {
     path: '/format',
     handler: (request, h) => {
       const inputJSON = request.payload;
-      return inputJSON;
+      return mapChildNodesToParent(inputJSON);
     }
   });
 
