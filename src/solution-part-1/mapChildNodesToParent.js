@@ -4,7 +4,7 @@ const mapChildNodesToParent = (inputJSON) => {
   const rootElement = reductToRootElement(inputJSON);
 
    // => if count > 1 raise error
-  if (Object.entries(rootElementReducer).length > 1) {
+  if (Object.entries(rootElement).length > 1) {
     throw TypeError("Invalid input JSON, contains more than one root element");
   }
 }
@@ -22,7 +22,7 @@ const reductToRootElement = (inputJSON) => {
     return rootElementAccum;
   }, []);
 
-  return rootElements;
+  return rootElementReducer;
 }
 
 module.exports = mapChildNodesToParent;
