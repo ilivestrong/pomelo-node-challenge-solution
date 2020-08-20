@@ -4,7 +4,7 @@ const Hapi = require("@hapi/hapi");
 const { PORT, HOST } = require("./server.config");
 
 const { formatJSON } = require("./routes");
-const mapChildNodesToParent = require("./solution-part-1/mapChildNodesToParent");
+const input = require("./solution-part-1/mapChildNodesToParent");
 
 /**
  * define routes and configure Hapi server
@@ -22,7 +22,7 @@ const init = async () => {
     path: '/format',
     handler: (request, h) => {
       const inputJSON = request.payload;
-      return mapChildNodesToParent(inputJSON);
+      return input(inputJSON).transform();
     }
   });
 
