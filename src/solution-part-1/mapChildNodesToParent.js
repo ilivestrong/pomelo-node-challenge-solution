@@ -1,6 +1,5 @@
 const input = (inputJSON) => {
 
-  console.time("transformation");
   let maxDepth = Object.keys(inputJSON).length - 1;
   let currentLevel = 0;
   let matcherLevel = 0;
@@ -12,7 +11,7 @@ const input = (inputJSON) => {
     transformedJSON.push(rootElement);
 
     bindChildren(rootElement, transformedJSON);
-    
+
     return transformedJSON;
   }
 
@@ -59,7 +58,7 @@ const input = (inputJSON) => {
   }
 
   /**
-   * 
+   * Core recursive function to arrange children into parent nodes based on their level and parent_id.
    * @param {Object} rootElement - Root level node 
    * @param {*} transformedJSON - Progressively build up Object on each recursion based on level
    */
@@ -75,23 +74,21 @@ const input = (inputJSON) => {
       rootElement.children = currentLevelNodes;
     } else {
       currentLevel++;
-
+      
       const currentLevelNodes = getElementsByLevel(currentLevel);
       if (currentLevelNodes && currentLevelNodes.length > 0) {
-
         const transformedChildren = transformedJSON[matcherLevel].children;
+        
         if ((currentLevel - 1) === transformedChildren[matcherLevel].level) {
-
-          /* if it matches, this is the level we  need to make updates */
-          currentLevelNodes.forEach((cn) => {
-            const matchedIndex = transformedChildren.map(tc => tc.id).indexOf(cn.parent_id);
-
-            if (matchedIndex !== -1) {
-              transformedChildren[matchedIndex].children.push(cn);
+          currentLevelNodes.forEach(
+            (cn) => {
+              const matchedIndex = transformedChildren.map(tc => tc.id).indexOf(cn.parent_id);
+              
+              if (matchedIndex !== -1) {
+                transformedChildren[matchedIndex].children.push(cn);
+              }
             }
-          })
-        } else {
-          matcherLevel++;
+          );
         }
       }
     }
