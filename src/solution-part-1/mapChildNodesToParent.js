@@ -3,16 +3,14 @@ const input = (inputJSON) => {
   let maxDepth = Object.keys(inputJSON).length - 1;
   let currentLevel = 0;
   let matcherLevel = 0;
+  let transformedOutput = [];
 
   const transform = () => {
-    let transformedJSON = [];
-
     const rootElement = reduceToRootElement(inputJSON);
-    transformedJSON.push(rootElement);
+    transformedOutput.push(rootElement);
 
-    bindChildren(rootElement, transformedJSON);
-
-    return transformedJSON;
+    bindChildren();
+    return transformedOutput;
   }
 
   /**
@@ -60,30 +58,31 @@ const input = (inputJSON) => {
   /**
    * Core recursive function to arrange children into parent nodes based on their level and parent_id.
    * @param {Object} rootElement - Root level node 
-   * @param {*} transformedJSON - Progressively build up Object on each recursion based on level
+   * @param {*} transformedOutput - Progressively build up Object on each recursion based on level
    */
-  const bindChildren = (rootElement, transformedJSON) => {
+  const bindChildren = () => {
+
     if (currentLevel === maxDepth) {
       return;
     }
 
     if (currentLevel === 0) {
       currentLevel++;
-      
+
       const currentLevelNodes = getElementsByLevel(currentLevel);
-      rootElement.children = currentLevelNodes;
+      transformedOutput[0].children = currentLevelNodes;
     } else {
       currentLevel++;
-      
+
       const currentLevelNodes = getElementsByLevel(currentLevel);
       if (currentLevelNodes && currentLevelNodes.length > 0) {
-        const transformedChildren = transformedJSON[matcherLevel].children;
-        
+        const transformedChildren = transformedOutput[matcherLevel].children;
+
         if ((currentLevel - 1) === transformedChildren[matcherLevel].level) {
           currentLevelNodes.forEach(
             (cn) => {
               const matchedIndex = transformedChildren.map(tc => tc.id).indexOf(cn.parent_id);
-              
+
               if (matchedIndex !== -1) {
                 transformedChildren[matchedIndex].children.push(cn);
               }
@@ -92,7 +91,7 @@ const input = (inputJSON) => {
         }
       }
     }
-    bindChildren(rootElement, transformedJSON);
+    bindChildren();
   }
 
   return {
