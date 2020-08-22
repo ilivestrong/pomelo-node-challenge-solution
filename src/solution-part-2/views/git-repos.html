@@ -1,0 +1,37 @@
+{{#with results}}
+<p>
+  <h1>Search Term: {{searchTerm}}</h1>
+</p>
+
+<table>
+  <tr>
+    <th>Repo Full Name</th>
+    <th>Created At</th>
+    <th>Updated At</th>
+    <th>Clone URL</th>
+    <th>Stars</th>
+    <th>Avatar</th>
+  </tr>
+
+  {{#each values}}
+  <tr>
+    <td>{{full_name}}</td>
+    <td>{{created_at}}</td>
+    <td>{{updated_at}}</td>
+    <td><a href={{clone_url}} target="_blank">{{clone_url}}</a></td>
+    <td>{{stargazers_count}}</td>
+    <td><img style="width:50px;" src={{owner.avatar_url}} /></td>
+  </tr>
+  {{/each}}
+  {{/with}}
+</table>
+
+<div>
+  {{#with results}}
+  {{#each links}}
+  <span>
+    <a href={{link}}>{{no}}</a>
+  </span>
+  {{/each}}
+  {{/with}}
+</div>

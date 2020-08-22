@@ -1,20 +1,24 @@
 const Hapi = require("@hapi/hapi");
+const vision = require("@hapi/vision");
 
-// override port number and host name via config file.
 const { PORT, HOST } = require("./server.config");
-
-const { formatJSON } = require("./routes");
 const input = require("./solution-part-1/mapChildNodesToParent");
+const { getPaginationLinks, fetchRepos } = require("./solution-part-2/gitReposUtil");
+
+const repoName = "nodejs";
+const server = Hapi.Server({
+  port: PORT,
+  host: HOST,
+});
 
 /**
  * define routes and configure Hapi server
  * @returns void
  */
 const init = async () => {
-  const server = Hapi.Server({
-    port: PORT,
-    host: HOST,
-  });
+
+  /* Plugin for rendering views as response */
+  await server.register(vision);
 
   /* route to format json */
   server.route({
@@ -25,6 +29,33 @@ const init = async () => {
       return input(inputJSON).transform();
     }
   });
+
+  /* route to show nodejs github repos */
+  server.route({
+    method: "GET",
+    path: "/repos/{pageNo}",
+    handler: async (request, h) => {
+      const currentPageNo = request.params.pageNo || 1;
+      return h.view("git-repos", {
+        results: {
+          searchTerm: repoName,
+          values: await fetchRepos(repoName, currentPageNo),
+          links: getPaginationLinks()
+        }
+      });
+    }
+  });
+
+  /* Register views */
+  server.views({
+    engines: {
+      html: require("handlebars")
+    },
+    path: "./solution-part-2/views",
+    layout: "layout",
+    relativeTo: __dirname,
+  });
+
 
   /* kick off the server */
   await server.start();
