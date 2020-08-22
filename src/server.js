@@ -2,17 +2,16 @@ const Hapi = require("@hapi/hapi");
 const vision = require("@hapi/vision");
 
 const { PORT, HOST } = require("./server.config");
-const input = require("./solution-part-1/mapChildNodesToParent");
-const { getPaginationLinks, fetchRepos } = require("./solution-part-2/gitReposUtil");
+const { configureRoutes } = require("./routesConfig");
+const { configureViews } = require("./viewConfig");
 
-const repoName = "nodejs";
 const server = Hapi.Server({
   port: PORT,
   host: HOST,
 });
 
 /**
- * define routes and configure Hapi server
+ * setup Hapi server, routes, view engine and starts the server.
  * @returns void
  */
 const init = async () => {
@@ -20,47 +19,16 @@ const init = async () => {
   /* Plugin for rendering views as response */
   await server.register(vision);
 
-  /* route to format json */
-  server.route({
-    method: 'POST',
-    path: '/format',
-    handler: (request, h) => {
-      const inputJSON = request.payload;
-      return input(inputJSON).transform();
-    }
-  });
+  /* configure routes */
+  configureRoutes(server);
 
-  /* route to show nodejs github repos */
-  server.route({
-    method: "GET",
-    path: "/repos/{pageNo}",
-    handler: async (request, h) => {
-      const currentPageNo = request.params.pageNo || 1;
-      return h.view("git-repos", {
-        results: {
-          searchTerm: repoName,
-          values: await fetchRepos(repoName, currentPageNo),
-          links: getPaginationLinks()
-        }
-      });
-    }
-  });
-
-  /* Register views */
-  server.views({
-    engines: {
-      html: require("handlebars")
-    },
-    path: "./solution-part-2/views",
-    layout: "layout",
-    relativeTo: __dirname,
-  });
-
+  /* configure views */
+  configureViews(server);
 
   /* kick off the server */
   await server.start();
 
-  console.log(`Server running at http://${HOST}:${PORT}`);
+  console.log(`Server running at: ${server.info.uri}`);
 }
 
 /* tap the unhandledRejection event, log the error and let Node exit abnormally. */
@@ -69,5 +37,5 @@ process.on('unhandledRejection', (err) => {
   process.exit(1);
 });
 
-// start the server
+// kick off Hapi server setup and start
 init();

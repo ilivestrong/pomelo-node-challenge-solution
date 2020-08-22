@@ -1,6 +1,6 @@
 {{#with results}}
 <p>
-  <h1>Search Term: {{searchTerm}}</h1>
+<h1>Search Term: {{searchTerm}}</h1>
 </p>
 
 <table>
@@ -26,11 +26,11 @@
   {{/with}}
 </table>
 
-<div>
+<div style="border: 1.5px solid green; padding:10px;">
   {{#with results}}
   {{#each links}}
-  <span>
-    <a href={{link}}>{{no}}</a>
+  <span style="font-size: 1.5em; margin-right: 5px;">
+    <a style="color:green" href={{link}}>{{no}}</a>
   </span>
   {{/each}}
   {{/with}}
