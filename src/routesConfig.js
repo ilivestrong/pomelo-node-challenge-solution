@@ -1,11 +1,11 @@
 const input = require("./solution-part-1/mapChildNodesToParent");
 const { getPaginationLinks, fetchRepos } = require("./solution-part-2/gitReposUtil");
-const { REPO_NAME } = require("./appConfig");
+const { API_BASE, REPO_NAME } = require("./appConfig");
 
 module.exports.configureRoutes = (server) => {
   server.route({
     method: 'POST',
-    path: '/format',
+    path: `/${API_BASE}/format`,
     handler: (request, h) => {
       const inputJSON = request.payload;
       return input(inputJSON).transform();
@@ -13,7 +13,7 @@ module.exports.configureRoutes = (server) => {
   });
   server.route({
     method: "GET",
-    path: "/repos/{pageNo}",
+    path: `/${API_BASE}/repos/{pageNo}`,
     handler: async (request, h) => {
       const currentPageNo = request.params.pageNo || 1;
       const repoName = REPO_NAME || "nodejs";

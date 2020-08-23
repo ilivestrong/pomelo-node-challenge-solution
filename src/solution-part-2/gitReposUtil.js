@@ -1,5 +1,6 @@
 const { Octokit } = require("@octokit/core");
 const {
+  API_BASE,
   REPO_NAME,
   RESULTS_PER_PAGE,
   TOTAL_PAGES
@@ -22,7 +23,7 @@ const getPaginationLinks = () => {
   let pageLinks = [];
 
   for (let pageNo = 1; pageNo <= TOTAL_PAGES; pageNo++) {
-    pageLinks.push({ no: pageNo, link: `/repos/${pageNo}` });
+    pageLinks.push({ no: pageNo, link: `/${API_BASE}/repos/${pageNo}` });
   }
   return pageLinks;
 };
