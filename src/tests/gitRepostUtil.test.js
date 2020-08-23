@@ -24,7 +24,7 @@ describe("gitRepoUtil tests suite", () => {
       });
 
       // Act
-      const fnToTest = gitRepoUtilProxy.getPaginationLinks;
+      
 
       // Assert 
       expect(gitRepoUtilProxy.getPaginationLinks).to.throw(Error, expected);

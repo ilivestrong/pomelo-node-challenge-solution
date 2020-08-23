@@ -33,13 +33,14 @@ const input = (inputJSON) => {
       return rootElementAccum;
     }, []);
 
-    const rootElementCount = Object.entries(rootElementReducer);
-    if (rootElementCount > 1) {
-      throw Error("Invalid input JSON, contains more than one root element");
-    } else if (rootElementCount === 0) {
-      throw Error("Invalid input JSON, contains no root element");
-    }
+    const rootElementCount = rootElementReducer.length > 0 ? Object.entries(rootElementReducer[0]).length : 0;
 
+    if (rootElementCount > 1) {
+      throw new Error("Invalid input JSON, contains more than one root element");
+
+    } else if (rootElementCount === 0) {
+      throw new Error("Invalid input JSON, contains no root element");
+    }
     return rootElementReducer[0][0];
   }
 
