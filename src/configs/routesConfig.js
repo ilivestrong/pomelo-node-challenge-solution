@@ -3,6 +3,8 @@ const { getPaginationLinks, fetchRepos } = require("../solution-part-2/gitReposU
 const { API_BASE, REPO_NAME } = require("./appConfig");
 
 module.exports.configureRoutes = (server) => {
+  const links = getPaginationLinks();
+
   server.route({
     method: 'POST',
     path: `/${API_BASE}/format`,
@@ -22,7 +24,7 @@ module.exports.configureRoutes = (server) => {
         results: {
           searchTerm: repoName,
           values: await fetchRepos(REPO_NAME, currentPageNo),
-          links: getPaginationLinks()
+          links
         }
       });
     }

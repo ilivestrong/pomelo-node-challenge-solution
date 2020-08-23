@@ -1,7 +1,7 @@
 const Hapi = require("@hapi/hapi");
 const vision = require("@hapi/vision");
 
-const { PORT, HOST } = require("./configs/server.config");
+const { PORT, HOST } = require("./configs/serverConfig");
 const { configureRoutes } = require("./configs/routesConfig");
 const { configureViews } = require("./configs/viewConfig");
 let server;
@@ -11,15 +11,12 @@ let server;
  * @returns server | error object
  */
 const setup = () => {
-  try {
-    server = Hapi.Server({
-      port: "3000",
-      host: HOST,
-    });
-  } catch (e) {
-    console.log(`Server setup: ${e}`);
-    return e;
-  }
+
+  server = Hapi.Server({
+    port: PORT,
+    host: HOST,
+  });
+
   return server;
 }
 
@@ -29,24 +26,20 @@ const setup = () => {
  */
 const init = async () => {
 
-  try {
-    // configure server
-    setup();
+  // configure server
+  setup();
 
-    if (server) {
-      /* Plugin for rendering views as response */
-      await server.register(vision);
+  if (server) {
+    /* Plugin for rendering views as response */
+    await server.register(vision);
 
-      /* configure routes */
-      configureRoutes(server);
+    /* configure routes */
+    configureRoutes(server);
 
-      /* configure views */
-      configureViews(server);
-    }
-  } catch (e) {
-    console.log(`Server init: ${e}`);
-    return e;
+    /* configure views */
+    configureViews(server);
   }
+
   return server;
 }
 
@@ -55,17 +48,13 @@ const init = async () => {
  * @returns server | error object
  */
 const start = async () => {
-  try {
-    if (server) {
-      /* start the server */
-      await server.start();
-      console.log(`Server running at: ${server.info.uri}`);
-    }
 
-  } catch (e) {
-    console.log(`Server start: ${e}`);
-    return e;
+  if (server) {
+    /* start the server */
+    await server.start();
+    console.log(`Server running at: ${server.info.uri}`);
   }
+
   return server;
 }
 

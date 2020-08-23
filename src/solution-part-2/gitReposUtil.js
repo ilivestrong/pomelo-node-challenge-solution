@@ -6,6 +6,10 @@ const {
   TOTAL_PAGES
 } = require("../configs/appConfig");
 
+const {
+  errors: { github: githubErrors }
+} = require("../configs/errorsConfig");
+
 /**
  * Constructs a page link array based on config. These are used on UI to display pagination links.
  * @returns Array<{no:number, link: string}>
@@ -13,11 +17,11 @@ const {
 const getPaginationLinks = () => {
 
   if (RESULTS_PER_PAGE < 0 || RESULTS_PER_PAGE > 100) {
-    throw new Error("Sorry, Github support results per page between 1 - 100.");
+    throw new Error(githubErrors.INVALID_RESULTS_PER_PAGE);
   }
 
   if (TOTAL_PAGES < 0) {
-    throw new Error("Invalid value provided for total pages.");
+    throw new Error(githubErrors.INVALID_TOTAL_PAGES);
   }
 
   if (!REPO_NAME) {
