@@ -4,8 +4,8 @@
   "description": "Test solution",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js",
+    "test": "lab -v **/tests/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,9 @@
     "@hapi/vision": "^6.0.1"
   },
   "devDependencies": {
+    "@hapi/code": "^8.0.2",
     "@hapi/hapi": "^20.0.0",
+    "@hapi/lab": "^23.0.0",
     "@hapi/vision": "^6.0.1",
     "@octokit/core": "^3.1.2",
     "handlebars": "^4.7.6"

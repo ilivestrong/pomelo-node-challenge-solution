@@ -12,10 +12,9 @@ const server = Hapi.Server({
 
 /**
  * setup Hapi server, routes, view engine and starts the server.
- * @returns void
+ * @returns server object representing succesfull server initialization. 
  */
 const init = async () => {
-
   /* Plugin for rendering views as response */
   await server.register(vision);
 
@@ -25,10 +24,16 @@ const init = async () => {
   /* configure views */
   configureViews(server);
 
+  return server;
+}
+
+const start = async () => {
   /* kick off the server */
   await server.start();
-
+  
   console.log(`Server running at: ${server.info.uri}`);
+  
+  return server;
 }
 
 /* tap the unhandledRejection event, log the error and let Node exit abnormally. */
@@ -37,5 +42,7 @@ process.on('unhandledRejection', (err) => {
   process.exit(1);
 });
 
-// kick off Hapi server setup and start
-init();
+module.exports = {
+  init,
+  start
+}
