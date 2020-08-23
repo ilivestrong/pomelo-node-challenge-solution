@@ -30,6 +30,26 @@ describe("gitRepoUtil tests suite", () => {
       expect(gitRepoUtilProxy.getPaginationLinks).to.throw(Error, expected);
     });
 
+    it("expect INVALID_RESULTS_PER_PAGE error if RESULTS_PER_PAGE is not provided", () => {
+      // Arrange
+      const appConfigStub = {
+        API_BASE: "testAPI_BASE",
+        REPO_NAME: "test",
+        // RESULTS_PER_PAGE: 5000,
+        TOTAL_PAGES: 10
+      };
+      let expected = github.INVALID_RESULTS_PER_PAGE;
+      const gitRepoUtilProxy = proxyquire("../solution-part-2/gitReposUtil", {
+        "../configs/appConfig": appConfigStub
+      });
+
+      // Act
+      const fnToTest = gitRepoUtilProxy.getPaginationLinks;
+
+      // Assert 
+      expect(gitRepoUtilProxy.getPaginationLinks).to.throw(Error, expected);
+    });
+
     it("expect INVALID_TOTAL_PAGES error if TOTAL_PAGES IS < 0 or not provided", () => {
       // Arrange
       const appConfigStub = {
@@ -37,6 +57,46 @@ describe("gitRepoUtil tests suite", () => {
         REPO_NAME: "test",
         RESULTS_PER_PAGE: 50,
         TOTAL_PAGES: -1
+      };
+      let expected = github.INVALID_TOTAL_PAGES;
+      const gitRepoUtilProxy = proxyquire("../solution-part-2/gitReposUtil", {
+        "../configs/appConfig": appConfigStub
+      });
+
+      // Act
+      const fnToTest = gitRepoUtilProxy.getPaginationLinks;
+
+      // Assert 
+      expect(gitRepoUtilProxy.getPaginationLinks).to.throw(Error, expected);
+    });
+
+    it("expect INVALID_TOTAL_PAGES error if TOTAL_PAGES IS < 0", () => {
+      // Arrange
+      const appConfigStub = {
+        API_BASE: "testAPI_BASE",
+        REPO_NAME: "test",
+        RESULTS_PER_PAGE: 50,
+        TOTAL_PAGES: -1
+      };
+      let expected = github.INVALID_TOTAL_PAGES;
+      const gitRepoUtilProxy = proxyquire("../solution-part-2/gitReposUtil", {
+        "../configs/appConfig": appConfigStub
+      });
+
+      // Act
+      const fnToTest = gitRepoUtilProxy.getPaginationLinks;
+
+      // Assert 
+      expect(gitRepoUtilProxy.getPaginationLinks).to.throw(Error, expected);
+    });
+
+    it("expect INVALID_TOTAL_PAGES error if TOTAL_PAGES is not provided", () => {
+      // Arrange
+      const appConfigStub = {
+        API_BASE: "testAPI_BASE",
+        REPO_NAME: "test",
+        RESULTS_PER_PAGE: 50,
+        // TOTAL_PAGES: -1
       };
       let expected = github.INVALID_TOTAL_PAGES;
       const gitRepoUtilProxy = proxyquire("../solution-part-2/gitReposUtil", {
