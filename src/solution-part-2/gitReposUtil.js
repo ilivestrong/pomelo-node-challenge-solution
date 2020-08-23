@@ -18,11 +18,11 @@ const { GITHUB_REPO_SEARCH_BASE}  = require("../configs/appConfig.js");
  */
 const getPaginationLinks = () => {
 
-  if (RESULTS_PER_PAGE < 0 || RESULTS_PER_PAGE > 100) {
+  if (!RESULTS_PER_PAGE || RESULTS_PER_PAGE < 0 || RESULTS_PER_PAGE > 100) {
     throw new Error(githubErrors.INVALID_RESULTS_PER_PAGE);
   }
 
-  if (TOTAL_PAGES < 0) {
+  if (!TOTAL_PAGES || TOTAL_PAGES < 0) {
     throw new Error(githubErrors.INVALID_TOTAL_PAGES);
   }
 
