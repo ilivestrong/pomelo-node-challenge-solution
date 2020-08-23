@@ -1,6 +1,6 @@
 const Lab = require("@hapi/lab");
 const { expect } = require("@hapi/code");
-const { beforeEach, describe, it } = exports.lab = Lab.script();
+const { describe, it } = exports.lab = Lab.script();
 const pq = require("proxyquire");
 
 const { errors: { github } } = require("../configs/errorsConfig");

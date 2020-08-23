@@ -1,7 +1,9 @@
-const { Octokit } = require("@octokit/core");
+const { getOctokitInstance } = require("./OctokitWrapper");
 const {
   API_BASE,
+  GITHUB_PERSONAL_ACCESS_TOKEN,
   RESULTS_PER_PAGE,
+  REPO_NAME,
   TOTAL_PAGES
 } = require("../configs/appConfig");
 
@@ -9,7 +11,7 @@ const {
   errors: { github: githubErrors }
 } = require("../configs/errorsConfig");
 
-const { GITHUB_REPO_SEARCH_BASE}  = require("../configs/appConfig.js");
+const { GITHUB_REPO_SEARCH_BASE } = require("../configs/appConfig.js");
 
 /**
  * Constructs a page link array based on config. These are used on UI to display pagination links.
@@ -33,10 +35,10 @@ const getPaginationLinks = () => {
   return pageLinks;
 };
 
-async function fetchRepos(repoName, currentPage = 1) {
-  const octokit = new Octokit({ auth: `397a8141d1e20f9136d02f7381b294f688ad295d` });
+async function fetchRepos(repoName = REPO_NAME, currentPage = 1) {
   let repoList = [];
   try {
+    const octokit = getOctokitInstance(GITHUB_PERSONAL_ACCESS_TOKEN);
     const response = await octokit.request(
       `GET ${GITHUB_REPO_SEARCH_BASE}?q=${repoName}&per_page=${RESULTS_PER_PAGE}&page=${currentPage}`,
       {
