@@ -1,7 +1,6 @@
 const { Octokit } = require("@octokit/core");
 const {
   API_BASE,
-  REPO_NAME,
   RESULTS_PER_PAGE,
   TOTAL_PAGES
 } = require("../configs/appConfig");
@@ -39,7 +38,7 @@ async function fetchRepos(repoName, currentPage = 1) {
   let repoList = [];
   try {
     const response = await octokit.request(
-      `GET ${GITHUB_REPO_SEARCH_BASE}?q=${REPO_NAME}&per_page=${RESULTS_PER_PAGE}&page=${currentPage}`,
+      `GET ${GITHUB_REPO_SEARCH_BASE}?q=${repoName}&per_page=${RESULTS_PER_PAGE}&page=${currentPage}`,
       {
         headers: {
           "User-Agent": "gitreposdemo",
