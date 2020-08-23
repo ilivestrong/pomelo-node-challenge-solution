@@ -10,6 +10,8 @@ const {
   errors: { github: githubErrors }
 } = require("../configs/errorsConfig");
 
+const { GITHUB_REPO_SEARCH_BASE}  = require("../configs/appConfig.js");
+
 /**
  * Constructs a page link array based on config. These are used on UI to display pagination links.
  * @returns Array<{no:number, link: string}>
@@ -41,7 +43,7 @@ async function fetchRepos(repoName, currentPage = 1) {
   let repoList = [];
   try {
     const response = await octokit.request(
-      `GET https://api.github.com/search/repositories?q=${REPO_NAME}&per_page=${RESULTS_PER_PAGE}&page=${currentPage}`,
+      `GET ${GITHUB_REPO_SEARCH_BASE}?q=${REPO_NAME}&per_page=${RESULTS_PER_PAGE}&page=${currentPage}`,
       {
         headers: {
           "User-Agent": "gitreposdemo",
