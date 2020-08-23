@@ -4,7 +4,7 @@ const {
   REPO_NAME,
   RESULTS_PER_PAGE,
   TOTAL_PAGES
-} = require("../appConfig");
+} = require("../configs/appConfig");
 
 /**
  * Constructs a page link array based on config. These are used on UI to display pagination links.

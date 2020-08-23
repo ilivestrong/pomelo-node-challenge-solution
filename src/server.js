@@ -1,9 +1,9 @@
 const Hapi = require("@hapi/hapi");
 const vision = require("@hapi/vision");
 
-const { PORT, HOST } = require("./server.config");
-const { configureRoutes } = require("./routesConfig");
-const { configureViews } = require("./viewConfig");
+const { PORT, HOST } = require("./configs/server.config");
+const { configureRoutes } = require("./configs/routesConfig");
+const { configureViews } = require("./configs/viewConfig");
 let server;
 
 /**

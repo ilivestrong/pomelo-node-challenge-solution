@@ -3,7 +3,7 @@ module.exports.configureViews = (server) => {
     engines: {
       html: require("handlebars")
     },
-    path: "./solution-part-2/views",
+    path: "../solution-part-2/views",
     layout: "layout",
     relativeTo: __dirname,
   });

@@ -1,5 +1,5 @@
-const input = require("./solution-part-1/mapChildNodesToParent");
-const { getPaginationLinks, fetchRepos } = require("./solution-part-2/gitReposUtil");
+const input = require("../solution-part-1/mapChildNodesToParent");
+const { getPaginationLinks, fetchRepos } = require("../solution-part-2/gitReposUtil");
 const { API_BASE, REPO_NAME } = require("./appConfig");
 
 module.exports.configureRoutes = (server) => {
