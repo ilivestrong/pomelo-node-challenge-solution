@@ -6,6 +6,10 @@ const {
   TOTAL_PAGES
 } = require("../appConfig");
 
+/**
+ * Constructs a page link array based on config. These are used on UI to display pagination links.
+ * @returns Array<{no:number, link: string}>
+ */
 const getPaginationLinks = () => {
 
   if (RESULTS_PER_PAGE < 0 || RESULTS_PER_PAGE > 100) {
@@ -42,8 +46,9 @@ async function fetchRepos(repoName, currentPage = 1) {
       }
     );
     repoList = response.data.items;
-  } catch (err) {
-    console.log(err);
+  } catch (e) {
+    console.log(`Fetch Repo: ${e}`);
+    return new Error(e);
   }
   return repoList;
 }
