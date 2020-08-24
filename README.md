@@ -17,3 +17,8 @@ Any overrides of the host or port can be done via "**serverConfig.js**" in the p
 
 #### To run test coverage
 - **npm run test-cvg**: This will run test coverage.
+
+#### API endpoints
+- http://localhost:3000/api/pomelochallenge/repos/1  - **This API covers Problem 1 in the test**
+This API connects with Github and searches repositores with term - "nodejs". It display 10 rows per page and a total of 10 pages.
+This setting can be customized via **appConfig.js** under **src >> configs** folder
